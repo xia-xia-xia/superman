@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xiaomi.nrb.superman.dao.PlanMapper">
+    <resultMap id="BaseResultMap" type="com.xiaomi.nrb.superman.domain.Plan">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="process_first_img" jdbcType="VARCHAR" property="processFirstImg"/>
+        <result column="process_second_img" jdbcType="VARCHAR" property="processSecondImg"/>
+        <result column="process_third_img" jdbcType="VARCHAR" property="processThirdImg"/>
+        <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
+        <result column="utime" jdbcType="TIMESTAMP" property="utime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, title, content, start_time, end_time, type, status, process_first_img, 
+    process_second_img, process_third_img, ctime, utime
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from plan
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+
+    <insert id="insertSelective" parameterType="com.xiaomi.nrb.superman.domain.Plan" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="processFirstImg != null">
+                process_first_img,
+            </if>
+            <if test="processSecondImg != null">
+                process_second_img,
+            </if>
+            <if test="processThirdImg != null">
+                process_third_img,
+            </if>
+            <if test="ctime != null">
+                ctime,
+            </if>
+            <if test="utime != null">
+                utime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="processFirstImg != null">
+                #{processFirstImg,jdbcType=VARCHAR},
+            </if>
+            <if test="processSecondImg != null">
+                #{processSecondImg,jdbcType=VARCHAR},
+            </if>
+            <if test="processThirdImg != null">
+                #{processThirdImg,jdbcType=VARCHAR},
+            </if>
+            <if test="ctime != null">
+                #{ctime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="utime != null">
+                #{utime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xiaomi.nrb.superman.domain.Plan">
+        update plan
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="processFirstImg != null">
+                process_first_img = #{processFirstImg,jdbcType=VARCHAR},
+            </if>
+            <if test="processSecondImg != null">
+                process_second_img = #{processSecondImg,jdbcType=VARCHAR},
+            </if>
+            <if test="processThirdImg != null">
+                process_third_img = #{processThirdImg,jdbcType=VARCHAR},
+            </if>
+            <if test="ctime != null">
+                ctime = #{ctime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="utime != null">
+                utime = #{utime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="listBySelective" parameterType="com.xiaomi.nrb.superman.dao.quary.ListPlanQuaryParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from plan
+        <where>
+            <if test="planIds != null">
+                and id in
+                <foreach collection="planIds" item="item" index="index" open="(" close=")" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
+            <if test="type != null">
+                and type = #{type,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and status in
+                <foreach collection="status" item="item" index="index" open="(" close=")" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+            <if test="types != null">
+                and type in
+                <foreach collection="types" item="item" index="index" open="(" close=")" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+        </where>
+        order by ctime desc
+        <include refid="page_sql"/>
+    </select>
+    <select id="countBySelective" parameterType="com.xiaomi.nrb.superman.dao.quary.ListPlanQuaryParam" resultType="integer">
+        select
+        COUNT(1)
+        from plan
+        <where>
+            <if test="type != null">
+                and type = #{type,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and status in
+                <foreach collection="status" item="item" index="index" open="(" close=")" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+            <if test="types != null">
+                and type in
+                <foreach collection="types" item="item" index="index" open="(" close=")" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    <!-- 分页语句 -->
+    <sql id="page_sql">
+        <if test="pageSize!=null and pageNo!=null">
+            <![CDATA[
+			  limit #{pageSize} offset #{pageNo}
+		    ]]>
+        </if>
+    </sql>
+</mapper>
