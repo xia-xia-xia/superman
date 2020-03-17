@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.xiaomi.nrb.superman.domain.Plan">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="book" jdbcType="VARCHAR" property="book"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
@@ -17,7 +18,7 @@
         <result column="utime" jdbcType="TIMESTAMP" property="utime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, title, content, start_time, end_time, type, status, process_first_img, 
+    id, user_id,book, title, content, start_time, end_time, type, status, process_first_img,
     process_second_img, process_third_img, ctime, utime
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
@@ -37,6 +38,9 @@
             </if>
             <if test="userId != null">
                 user_id,
+            </if>
+            <if test="book != null">
+                book,
             </if>
             <if test="title != null">
                 title,
@@ -79,6 +83,9 @@
             <if test="userId != null">
                 #{userId,jdbcType=BIGINT},
             </if>
+            <if test="book != null">
+                #{book,jdbcType=VARCHAR},
+            </if>
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
             </if>
@@ -119,6 +126,9 @@
         <set>
             <if test="userId != null">
                 user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="book != null">
+                book = #{book,jdbcType=VARCHAR},
             </if>
             <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},

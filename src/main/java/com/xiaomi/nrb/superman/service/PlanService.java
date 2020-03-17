@@ -40,14 +40,6 @@ public interface PlanService {
     PlanInfo detailPlan(BaseRequest request);
 
     /**
-     * 完成计划
-     *
-     * @author niuruobing@xiaomi.com
-     * @since 2019-08-11 16:56
-     */
-    PlanInfo donePlan(BaseRequest request);
-
-    /**
      * 判断是否为YOU计划
      *
      * @author niuruobing@xiaomi.com
@@ -55,11 +47,4 @@ public interface PlanService {
      */
     boolean isYouPlan(Plan plan);
 
-    /**
-     * 挑战计划
-     *
-     * @author niuruobing@xiaomi.com
-     * @since 2019-08-12 14:12
-     */
-    boolean challengePlan(BaseRequest request);
 }

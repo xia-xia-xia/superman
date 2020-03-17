@@ -34,19 +34,13 @@ public class PlanController {
     public Result addPlan(@RequestBody AddPlanReq request) {
 
         try {
-            //时间校验
-            if (null == request.getBeginTime() || null == request.getEndTime() || request.getEndTime() <= request.getBeginTime()) {
-                return Result.error(ApiEnum.PARAM_INVALID.getCode(), ApiEnum.PARAM_INVALID.getValue() + "日期不合法");
-            }
             Plan plan = new Plan();
+            plan.setBook(request.getBook());
             plan.setTitle(request.getTitle());
             plan.setContent(request.getContent());
-            plan.setStartTime(new Date(request.getBeginTime()));
-            plan.setEndTime(new Date(request.getEndTime()));
             plan.setUserId(request.getUserId());
             plan.setCtime(new Date());
             plan.setType(request.getType());
-            plan.setStatus(PlanStatusEnum.NOT_BEGIN.getCode());
             return Result.ok(planService.addPlan(plan));
         } catch (Exception e) {
             log.error("PlanController.addPlan.error:", e);
@@ -78,30 +72,4 @@ public class PlanController {
         }
     }
 
-    @RequestMapping("/donePlan")
-    @CheckLogin
-    public Result donePlan(@RequestBody BaseRequest request) {
-        try {
-            return Result.ok(planService.donePlan(request));
-        } catch (Exception e) {
-            log.error("PlanController.donePlan.error:", e);
-            return Result.fail(ApiEnum.ERROR.getCode());
-        }
-    }
-
-    @RequestMapping("/challengePlan")
-    @CheckLogin
-    public Result challengePlan(@RequestBody BaseRequest request) {
-        try {
-            boolean res = planService.challengePlan(request);
-            if (res) {
-                return Result.ok(null);
-            } else {
-                return Result.fail(ApiEnum.PLAN_CHALLENGE_FIAL.getCode());
-            }
-        } catch (Exception e) {
-            log.error("PlanController.challengePlan.error:", e);
-            return Result.fail(ApiEnum.ERROR.getCode());
-        }
-    }
 }

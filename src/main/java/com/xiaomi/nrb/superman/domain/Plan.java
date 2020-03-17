@@ -16,6 +16,10 @@ public class Plan implements Serializable {
      */
     private Long userId;
     /**
+     * 书籍名称
+     */
+    private String book;
+    /**
      * 计划标题
      */
     private String title;
