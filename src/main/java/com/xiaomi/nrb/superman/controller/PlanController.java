@@ -36,6 +36,7 @@ public class PlanController {
         try {
             Plan plan = new Plan();
             plan.setBook(request.getBook());
+            plan.setBookType(request.getBookType());
             plan.setTitle(request.getTitle());
             plan.setContent(request.getContent());
             plan.setUserId(request.getUserId());

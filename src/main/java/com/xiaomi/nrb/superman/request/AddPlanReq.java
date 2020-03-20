@@ -15,6 +15,10 @@ public class AddPlanReq extends BaseRequest {
      */
     private String book;
     /**
+     * 书籍类型
+     */
+    private String bookType;
+    /**
      * 计划标题
      */
     private String title;

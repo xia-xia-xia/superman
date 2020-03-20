@@ -5,21 +5,15 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="book" jdbcType="VARCHAR" property="book"/>
+        <result column="book_type" jdbcType="VARCHAR" property="bookType"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
-        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
-        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
-        <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="process_first_img" jdbcType="VARCHAR" property="processFirstImg"/>
-        <result column="process_second_img" jdbcType="VARCHAR" property="processSecondImg"/>
-        <result column="process_third_img" jdbcType="VARCHAR" property="processThirdImg"/>
         <result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
         <result column="utime" jdbcType="TIMESTAMP" property="utime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id,book, title, content, start_time, end_time, type, status, process_first_img,
-    process_second_img, process_third_img, ctime, utime
+    id, user_id,book,book_type, title, content, type, ctime, utime
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
@@ -42,32 +36,17 @@
             <if test="book != null">
                 book,
             </if>
+            <if test="bookType != null">
+                book_type,
+            </if>
             <if test="title != null">
                 title,
             </if>
             <if test="content != null">
                 content,
             </if>
-            <if test="startTime != null">
-                start_time,
-            </if>
-            <if test="endTime != null">
-                end_time,
-            </if>
             <if test="type != null">
                 type,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="processFirstImg != null">
-                process_first_img,
-            </if>
-            <if test="processSecondImg != null">
-                process_second_img,
-            </if>
-            <if test="processThirdImg != null">
-                process_third_img,
             </if>
             <if test="ctime != null">
                 ctime,
@@ -86,32 +65,17 @@
             <if test="book != null">
                 #{book,jdbcType=VARCHAR},
             </if>
+            <if test="bookType != null">
+                #{bookType,jdbcType=VARCHAR},
+            </if>
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
             </if>
             <if test="content != null">
                 #{content,jdbcType=VARCHAR},
             </if>
-            <if test="startTime != null">
-                #{startTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime != null">
-                #{endTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="type != null">
                 #{type,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=INTEGER},
-            </if>
-            <if test="processFirstImg != null">
-                #{processFirstImg,jdbcType=VARCHAR},
-            </if>
-            <if test="processSecondImg != null">
-                #{processSecondImg,jdbcType=VARCHAR},
-            </if>
-            <if test="processThirdImg != null">
-                #{processThirdImg,jdbcType=VARCHAR},
             </if>
             <if test="ctime != null">
                 #{ctime,jdbcType=TIMESTAMP},
@@ -130,32 +94,17 @@
             <if test="book != null">
                 book = #{book,jdbcType=VARCHAR},
             </if>
+            <if test="bookType != null">
+                book_type = #{bookType,jdbcType=VARCHAR},
+            </if>
             <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},
             </if>
             <if test="content != null">
                 content = #{content,jdbcType=VARCHAR},
             </if>
-            <if test="startTime != null">
-                start_time = #{startTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime != null">
-                end_time = #{endTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="type != null">
                 type = #{type,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
-            </if>
-            <if test="processFirstImg != null">
-                process_first_img = #{processFirstImg,jdbcType=VARCHAR},
-            </if>
-            <if test="processSecondImg != null">
-                process_second_img = #{processSecondImg,jdbcType=VARCHAR},
-            </if>
-            <if test="processThirdImg != null">
-                process_third_img = #{processThirdImg,jdbcType=VARCHAR},
             </if>
             <if test="ctime != null">
                 ctime = #{ctime,jdbcType=TIMESTAMP},
@@ -184,12 +133,6 @@
             <if test="type != null">
                 and type = #{type,jdbcType=INTEGER}
             </if>
-            <if test="status != null">
-                and status in
-                <foreach collection="status" item="item" index="index" open="(" close=")" separator=",">
-                    #{item,jdbcType=INTEGER}
-                </foreach>
-            </if>
             <if test="types != null">
                 and type in
                 <foreach collection="types" item="item" index="index" open="(" close=")" separator=",">
@@ -207,12 +150,6 @@
         <where>
             <if test="type != null">
                 and type = #{type,jdbcType=INTEGER}
-            </if>
-            <if test="status != null">
-                and status in
-                <foreach collection="status" item="item" index="index" open="(" close=")" separator=",">
-                    #{item,jdbcType=INTEGER}
-                </foreach>
             </if>
             <if test="types != null">
                 and type in
