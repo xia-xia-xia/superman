@@ -112,7 +112,7 @@ public class PlanServiceImpl implements PlanService {
             PlanListInfo planListInfo = new PlanListInfo();
             planListInfo.setId(k.getId());
             planListInfo.setUserId(k.getUserId());
-            planListInfo.setBook(k.getBook());
+            planListInfo.setBookType(k.getBookType());
             planListInfo.setTitle(k.getTitle());
             planListInfo.setContent(k.getContent());
             planListInfo.setCtime(simpleDateFormat.format(k.getCtime()));

@@ -20,9 +20,9 @@ public class PlanListInfo {
      */
     private Long userId;
     /**
-     * 书籍名称
+     * 书籍类型
      */
-    private String book;
+    private String bookType;
     /**
      * 计划标题
      */
