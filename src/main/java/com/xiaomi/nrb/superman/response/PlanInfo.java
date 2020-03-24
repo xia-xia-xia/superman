@@ -16,7 +16,7 @@ public class PlanInfo extends Plan {
      */
     private boolean tag;
     /**
-     * 是否围观
+     * 是否关注
      */
     private boolean seeTag;
     /**
@@ -24,15 +24,15 @@ public class PlanInfo extends Plan {
      */
     private boolean zanTag;
     /**
-     * 是否挑战
+     * 是否收藏
      */
-    private boolean challengeTag;
+    private boolean collectTag;
     /**
      * 是否为you计划
      */
     private boolean youTag;
     /**
-     * 围观数量
+     * 关注数量
      */
     private Integer seeNum;
     /**
@@ -40,9 +40,9 @@ public class PlanInfo extends Plan {
      */
     private Integer zanNum;
     /**
-     * 挑战数量
+     * 收藏数量
      */
-    private Integer challengeNum;
+    private Integer collectNum;
 
     /**
      * 创建时间
@@ -53,9 +53,9 @@ public class PlanInfo extends Plan {
      */
     private List<String> seeAvartarUrls;
     /**
-     * 挑战用户头像
+     * 收藏用户头像
      */
-    private List<String> challengeAvartarUrls;
+    private List<String> collectAvartarUrls;
     /**
      * 微信昵称
      */

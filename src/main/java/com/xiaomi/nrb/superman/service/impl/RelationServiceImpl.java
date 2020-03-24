@@ -44,8 +44,8 @@ public class RelationServiceImpl implements RelationService {
             type = RelationTypeEnum.RELATION_SEE.getCode();
         } else if (RelationTypeEnum.RELATION_UPVOTE.getCode() == request.getType() && !planInfo.isZanTag()) {
             type = RelationTypeEnum.RELATION_UPVOTE.getCode();
-        } else if (RelationTypeEnum.RELATION_CHALLEGE.getCode() == request.getType() && !planInfo.isTag()) {
-            type = RelationTypeEnum.RELATION_CHALLEGE.getCode();
+        } else if (RelationTypeEnum.RELATION_COLLECT.getCode() == request.getType() && !planInfo.isTag()) {
+            type = RelationTypeEnum.RELATION_COLLECT.getCode();
         }
 
         if (null == type) {

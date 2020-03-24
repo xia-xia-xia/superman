@@ -7,9 +7,9 @@ package com.xiaomi.nrb.superman.enums;
  **/
 public enum RelationTypeEnum {
 
-    RELATION_SEE(1, "围观计划"),
+    RELATION_SEE(1, "关注作者"),
     RELATION_UPVOTE(2, "点赞计划"),
-    RELATION_CHALLEGE(3, "挑战计划");
+    RELATION_COLLECT(3, "收藏感悟");
 
 
     private int code;

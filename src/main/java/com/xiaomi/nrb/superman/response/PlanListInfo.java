@@ -32,7 +32,7 @@ public class PlanListInfo {
      */
     private String content;
     /**
-     * 围观数量
+     * 关注数量
      */
     private Integer seeNum;
     /**
@@ -40,9 +40,9 @@ public class PlanListInfo {
      */
     private Integer zanNum;
     /**
-     * 挑战数量
+     * 收藏数量
      */
-    private Integer challengeNum;
+    private Integer collectNum;
     /**
      * 创建时间
      */

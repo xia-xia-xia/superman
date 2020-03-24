@@ -126,19 +126,19 @@ public class PlanServiceImpl implements PlanService {
             }
             Integer seeNum = 0;
             Integer zanNum = 0;
-            Integer challengeNum = 0;
+            Integer collectNum=0;
             for (Relation relation1 : relations) {
                 if (RelationTypeEnum.RELATION_SEE.getCode() == relation1.getType()) {
                     seeNum++;
                 } else if (RelationTypeEnum.RELATION_UPVOTE.getCode() == relation1.getType()) {
                     zanNum++;
-                } else if (RelationTypeEnum.RELATION_CHALLEGE.getCode() == relation1.getType()) {
-                    challengeNum++;
+                } else if (RelationTypeEnum.RELATION_COLLECT.getCode() == relation1.getType()) {
+                    collectNum++;
                 }
             }
             planListInfo.setSeeNum(seeNum);
             planListInfo.setZanNum(zanNum);
-            planListInfo.setChallengeNum(challengeNum);
+            planListInfo.setCollectNum(collectNum);
             listInfos.add(planListInfo);
         });
         return PageInfo.<PlanListInfo>builder().list(listInfos).total(total).build();
@@ -161,15 +161,15 @@ public class PlanServiceImpl implements PlanService {
         } else {
             planInfo.setTag(false);
         }
-        planInfo.setChallengeTag(false);
+        planInfo.setCollectTag(false);
         planInfo.setZanTag(false);
         planInfo.setSeeTag(false);
         //关注、点赞、收藏
         Integer seeNum = 0;
         Integer zanNum = 0;
-        Integer challengeNum = 0;
+        Integer collectNum = 0;
         List<Long> seeUserIds = new ArrayList<>();
-        List<Long> challengeUserIds = new ArrayList<>();
+        List<Long> collectUserIds = new ArrayList<>();
         Relation relation = new Relation();
         relation.setPlanId(request.getPlanId());
         List<Relation> relations = relationMapper.listBySelective(relation);
@@ -184,22 +184,22 @@ public class PlanServiceImpl implements PlanService {
             } else if (RelationTypeEnum.RELATION_UPVOTE.getCode() == k.getType()) {
                 planInfo.setZanTag(true);
                 zanNum++;
-            } else if (RelationTypeEnum.RELATION_CHALLEGE.getCode() == k.getType()) {
-                planInfo.setChallengeTag(true);
-                challengeUserIds.add(k.getUserId());
-                challengeNum++;
+            } else if (RelationTypeEnum.RELATION_COLLECT.getCode() == k.getType()) {
+                planInfo.setCollectTag(true);
+                collectUserIds.add(k.getUserId());
+                collectNum++;
             }
         }
         planInfo.setSeeNum(seeNum);
         planInfo.setZanNum(zanNum);
-        planInfo.setChallengeNum(challengeNum);
+        planInfo.setCollectNum(collectNum);
         if (!CollectionUtils.isEmpty(seeUserIds)) {
             List<String> strings = userMapper.selectAvartarUrls(seeUserIds);
             planInfo.setSeeAvartarUrls(strings);
         }
-        if (!CollectionUtils.isEmpty(challengeUserIds)) {
-            List<String> strings = userMapper.selectAvartarUrls(challengeUserIds);
-            planInfo.setChallengeAvartarUrls(strings);
+        if (!CollectionUtils.isEmpty(collectUserIds)) {
+            List<String> strings = userMapper.selectAvartarUrls(collectUserIds);
+            planInfo.setCollectAvartarUrls(strings);
         }
         return planInfo;
     }
