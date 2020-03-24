@@ -51,9 +51,9 @@ public class PlanServiceImpl implements PlanService {
      */
     private static final int YOU_PLAN_ZAN_NUM = 1;
     /**
-     * 围观数量要求
+     * 收藏数量要求
      */
-    private static final int YOU_PLAN_SEE_NUM = 5;
+    private static final int YOU_PLAN_COLLECT_NUM = 1;
 
     @Override
     public Plan addPlan(Plan plan) {
@@ -229,7 +229,7 @@ public class PlanServiceImpl implements PlanService {
         //if (plan.getStatus() == PlanStatusEnum.ONGOING.getCode()) {
             relation.setType(RelationTypeEnum.RELATION_SEE.getCode());
             int seeNum = relationMapper.countBySelective(relation);
-            if (seeNum >= YOU_PLAN_SEE_NUM) {
+            if (seeNum >= YOU_PLAN_COLLECT_NUM) {
                 return true;
             }
         //}
