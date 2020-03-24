@@ -37,14 +37,14 @@ public class RelationServiceImpl implements RelationService {
         if (planInfo == null) {
             return planInfo;
         }
-        //自己可以围观、点赞自己对计划  不可以挑战自己对计划
+        //自己可以收藏、点赞自己的感悟，但不可以关注自己
         Integer type = null;
 
-        if (RelationTypeEnum.RELATION_SEE.getCode() == request.getType() && !planInfo.isSeeTag()) {
+        if (RelationTypeEnum.RELATION_SEE.getCode() == request.getType() && !planInfo.isTag()) {
             type = RelationTypeEnum.RELATION_SEE.getCode();
         } else if (RelationTypeEnum.RELATION_UPVOTE.getCode() == request.getType() && !planInfo.isZanTag()) {
             type = RelationTypeEnum.RELATION_UPVOTE.getCode();
-        } else if (RelationTypeEnum.RELATION_COLLECT.getCode() == request.getType() && !planInfo.isTag()) {
+        } else if (RelationTypeEnum.RELATION_COLLECT.getCode() == request.getType() && !planInfo.isCollectTag()) {
             type = RelationTypeEnum.RELATION_COLLECT.getCode();
         }
 
