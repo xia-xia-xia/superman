@@ -49,9 +49,9 @@ public class PlanInfo extends Plan {
      */
     private String ctimeForShow;
     /**
-     * 点赞用户头像
+     * 关注用户头像
      */
-    private List<String> zanAvartarUrls;
+    private List<String> seeAvartarUrls;
     /**
      * 挑战用户头像
      */

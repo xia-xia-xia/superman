@@ -8,7 +8,6 @@ import com.xiaomi.nrb.superman.dao.quary.ListPlanQuaryParam;
 import com.xiaomi.nrb.superman.domain.Plan;
 import com.xiaomi.nrb.superman.domain.Relation;
 import com.xiaomi.nrb.superman.domain.User;
-import com.xiaomi.nrb.superman.enums.PlanStatusEnum;
 import com.xiaomi.nrb.superman.enums.PlanTypeEnum;
 import com.xiaomi.nrb.superman.enums.RelationTypeEnum;
 import com.xiaomi.nrb.superman.request.BaseRequest;
@@ -25,7 +24,6 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -121,7 +119,6 @@ public class PlanServiceImpl implements PlanService {
             planListInfo.setAvartarUrl(user.getAvartarUrl());
             planListInfo.setGender(user.getGender());
             Relation relation = new Relation();
-            //relation.setUserId(request.getUserId());
             relation.setPlanId(k.getId());
             List<Relation> relations = relationMapper.listBySelective(relation);
             if (relations == null) {
@@ -142,22 +139,8 @@ public class PlanServiceImpl implements PlanService {
             planListInfo.setSeeNum(seeNum);
             planListInfo.setZanNum(zanNum);
             planListInfo.setChallengeNum(challengeNum);
-
-            //是否为挑战计划
-            /*if (k.getType() == PlanTypeEnum.PLAN_CHALLENGE.getCode()) {
-                String message = "用户:";
-                User user1 = userMapper.selectByPrimaryKey(k.getUserId());
-                message += planListInfo.getNickName();
-                message += " 在 ";
-                message += planListInfo.getStartTime();
-                message += "挑战了该计划";
-
-                planListInfo.setMessage(message);
-            }*/
             listInfos.add(planListInfo);
         });
-
-
         return PageInfo.<PlanListInfo>builder().list(listInfos).total(total).build();
     }
 
@@ -181,14 +164,13 @@ public class PlanServiceImpl implements PlanService {
         planInfo.setChallengeTag(false);
         planInfo.setZanTag(false);
         planInfo.setSeeTag(false);
-        //围观、点赞、挑战
+        //关注、点赞、收藏
         Integer seeNum = 0;
         Integer zanNum = 0;
         Integer challengeNum = 0;
-        List<Long> zanUserIds = new ArrayList<>();
+        List<Long> seeUserIds = new ArrayList<>();
         List<Long> challengeUserIds = new ArrayList<>();
         Relation relation = new Relation();
-        //relation.setUserId(request.getUserId());
         relation.setPlanId(request.getPlanId());
         List<Relation> relations = relationMapper.listBySelective(relation);
         if (relations == null) {
@@ -198,7 +180,7 @@ public class PlanServiceImpl implements PlanService {
             if (RelationTypeEnum.RELATION_SEE.getCode() == k.getType()) {
                 planInfo.setSeeTag(true);
                 seeNum++;
-                zanUserIds.add(k.getUserId());
+                seeUserIds.add(k.getUserId());
             } else if (RelationTypeEnum.RELATION_UPVOTE.getCode() == k.getType()) {
                 planInfo.setZanTag(true);
                 zanNum++;
@@ -211,9 +193,9 @@ public class PlanServiceImpl implements PlanService {
         planInfo.setSeeNum(seeNum);
         planInfo.setZanNum(zanNum);
         planInfo.setChallengeNum(challengeNum);
-        if (!CollectionUtils.isEmpty(zanUserIds)) {
-            List<String> strings = userMapper.selectAvartarUrls(zanUserIds);
-            planInfo.setZanAvartarUrls(strings);
+        if (!CollectionUtils.isEmpty(seeUserIds)) {
+            List<String> strings = userMapper.selectAvartarUrls(seeUserIds);
+            planInfo.setSeeAvartarUrls(strings);
         }
         if (!CollectionUtils.isEmpty(challengeUserIds)) {
             List<String> strings = userMapper.selectAvartarUrls(challengeUserIds);
