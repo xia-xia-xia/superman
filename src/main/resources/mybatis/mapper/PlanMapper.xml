@@ -139,6 +139,11 @@
                     #{item,jdbcType=INTEGER}
                 </foreach>
             </if>
+            <if test="searchKey != null">
+                and title LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
+                OR book LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
+                OR content LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
+            </if>
         </where>
         order by ctime desc
         <include refid="page_sql"/>
@@ -148,6 +153,15 @@
         COUNT(1)
         from plan
         <where>
+            <if test="planIds != null">
+                and id in
+                <foreach collection="planIds" item="item" index="index" open="(" close=")" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=BIGINT}
+            </if>
             <if test="type != null">
                 and type = #{type,jdbcType=INTEGER}
             </if>
@@ -156,6 +170,11 @@
                 <foreach collection="types" item="item" index="index" open="(" close=")" separator=",">
                     #{item,jdbcType=INTEGER}
                 </foreach>
+            </if>
+            <if test="searchKey != null">
+                and title LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
+                OR book LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
+                OR content LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
             </if>
         </where>
     </select>

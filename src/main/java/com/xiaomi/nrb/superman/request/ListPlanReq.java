@@ -22,4 +22,8 @@ public class ListPlanReq extends BaseRequest {
      * 点赞标记
      */
     private String upvote;
+    /**
+     * 搜索
+     */
+    private String searchKey;
 }

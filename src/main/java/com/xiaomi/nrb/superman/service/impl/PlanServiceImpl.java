@@ -90,6 +90,7 @@ public class PlanServiceImpl implements PlanService {
             quaryParam.setTypes(request.getTypes());
             quaryParam.setPageNo((request.getPageNo() - 1) * request.getPageSize());
             quaryParam.setPageSize(request.getPageSize());
+            quaryParam.setSearchKey(request.getSearchKey());
             /*if ("personal".equals(request.getSource())) {
                 parseUserPlanStatus(request.getUserId());
                 quaryParam.setUserId(request.getUserId());
@@ -111,6 +112,7 @@ public class PlanServiceImpl implements PlanService {
             planListInfo.setId(k.getId());
             planListInfo.setUserId(k.getUserId());
             planListInfo.setBookType(k.getBookType());
+            planListInfo.setBook(k.getBook());
             planListInfo.setTitle(k.getTitle());
             planListInfo.setContent(k.getContent());
             planListInfo.setCtime(simpleDateFormat.format(k.getCtime()));

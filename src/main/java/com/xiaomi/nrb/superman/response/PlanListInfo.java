@@ -32,6 +32,10 @@ public class PlanListInfo {
      */
     private String content;
     /**
+     * 书籍名称
+     */
+    private String book;
+    /**
      * 关注数量
      */
     private Integer seeNum;

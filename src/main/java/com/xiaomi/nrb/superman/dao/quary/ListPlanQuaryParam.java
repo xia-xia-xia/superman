@@ -25,4 +25,9 @@ public class ListPlanQuaryParam extends BaseQuaryParam {
     private Integer type;
 
     private List<Integer> types;
+
+    /**
+     * 搜索
+     */
+    private String searchKey;
 }

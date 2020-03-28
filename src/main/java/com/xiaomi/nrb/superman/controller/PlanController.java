@@ -9,6 +9,7 @@ import com.xiaomi.nrb.superman.request.BaseRequest;
 import com.xiaomi.nrb.superman.request.ListPlanReq;
 import com.xiaomi.nrb.superman.service.PlanService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,7 +54,9 @@ public class PlanController {
     @CheckLogin
     public Result listPlan(@RequestBody ListPlanReq request) {
         try {
-
+            if(StringUtils.isBlank(request.getSearchKey())){
+                request.setSearchKey(null);
+            }
             return Result.ok(planService.listPlan(request));
         } catch (Exception e) {
             log.error("PlanController.listPlan.error:", e);
