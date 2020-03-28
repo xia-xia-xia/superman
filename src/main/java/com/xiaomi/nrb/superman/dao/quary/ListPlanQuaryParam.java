@@ -30,4 +30,8 @@ public class ListPlanQuaryParam extends BaseQuaryParam {
      * 搜索
      */
     private String searchKey;
+    /**
+     * 书籍类型
+     */
+    private String bookType;
 }

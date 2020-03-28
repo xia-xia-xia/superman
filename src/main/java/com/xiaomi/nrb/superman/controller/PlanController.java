@@ -57,6 +57,9 @@ public class PlanController {
             if(StringUtils.isBlank(request.getSearchKey())){
                 request.setSearchKey(null);
             }
+            if(StringUtils.isBlank(request.getBookType())){
+                request.setBookType(null);
+            }
             return Result.ok(planService.listPlan(request));
         } catch (Exception e) {
             log.error("PlanController.listPlan.error:", e);

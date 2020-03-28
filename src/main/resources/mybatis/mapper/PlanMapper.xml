@@ -139,6 +139,9 @@
                     #{item,jdbcType=INTEGER}
                 </foreach>
             </if>
+            <if test="bookType != null">
+                and book_type = #{bookType,jdbcType=VARCHAR}
+            </if>
             <if test="searchKey != null">
                 and title LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
                 OR book LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
@@ -170,6 +173,9 @@
                 <foreach collection="types" item="item" index="index" open="(" close=")" separator=",">
                     #{item,jdbcType=INTEGER}
                 </foreach>
+            </if>
+            <if test="bookType != null">
+                and book_type = #{bookType,jdbcType=VARCHAR}
             </if>
             <if test="searchKey != null">
                 and title LIKE "%"#{searchKey,jdbcType=VARCHAR}"%"
