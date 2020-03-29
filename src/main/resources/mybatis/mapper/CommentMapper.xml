@@ -120,6 +120,9 @@
             <if test="toUid != null">
                 and to_uid = #{toUid,jdbcType=BIGINT}
             </if>
+            <if test="uid != null">
+                and uid = #{uid,jdbcType=BIGINT}
+            </if>
         </where>
         order by ctime desc
         <include refid="page_sql"/>

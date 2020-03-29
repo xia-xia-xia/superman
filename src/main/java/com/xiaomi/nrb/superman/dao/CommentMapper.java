@@ -13,7 +13,7 @@ import java.util.List;
 public interface CommentMapper {
     int insertSelective(Comment record);
 
-    Plan selectByPrimaryKey(Long id);
+    Comment selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Comment record);
 
