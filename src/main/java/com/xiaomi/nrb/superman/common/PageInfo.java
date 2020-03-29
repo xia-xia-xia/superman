@@ -13,5 +13,7 @@ import java.util.List;
 @Builder
 public class PageInfo<T> {
     private Integer total;
+    //private Integer commentTotal;
+    //private List<T> commentList;
     private List<T> list;
 }

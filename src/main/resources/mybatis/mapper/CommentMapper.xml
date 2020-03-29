@@ -127,4 +127,28 @@
         order by ctime desc
         <include refid="page_sql"/>
     </select>
+    <select id="countBySelective" parameterType="com.xiaomi.nrb.superman.dao.quary.ListCommentQuaryParam" resultType="integer">
+        select
+        COUNT(1)
+        from comment
+        <where>
+            <if test="commentIds != null">
+                and id in
+                <foreach collection="commentIds" item="item" index="index" open="(" close=")" separator=",">
+                    #{item,jdbcType=INTEGER}
+                </foreach>
+            </if>
+            <if test="planId != null">
+                and plan_id = #{planId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+    <!-- 分页语句 -->
+    <sql id="page_sql">
+        <if test="pageSize!=null and pageNo!=null">
+            <![CDATA[
+			  limit #{pageSize} offset #{pageNo}
+		    ]]>
+        </if>
+    </sql>
 </mapper>

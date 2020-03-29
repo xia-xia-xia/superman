@@ -1,14 +1,12 @@
 package com.xiaomi.nrb.superman.dao.quary;
 
 import com.xiaomi.nrb.superman.domain.BaseQuaryParam;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class ListCommentQuaryParam extends BaseQuaryParam {
-    /**
-     * 目标用户id
-     */
-    private Long toUid;
     /**
      * 评论的感悟id
      */

@@ -8,8 +8,11 @@ import com.xiaomi.nrb.superman.dao.PlanMapper;
 import com.xiaomi.nrb.superman.domain.Comment;
 import com.xiaomi.nrb.superman.domain.Plan;
 import com.xiaomi.nrb.superman.request.AddCommentReq;
+import com.xiaomi.nrb.superman.request.ListCommentReq;
+import com.xiaomi.nrb.superman.request.ListPlanReq;
 import com.xiaomi.nrb.superman.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,5 +60,15 @@ public class CommentController {
             return Result.fail(ApiEnum.ERROR.getCode());
         }
 
+    }
+    @RequestMapping("/listComment")
+    @CheckLogin
+    public Result listComment(@RequestBody ListCommentReq request) {
+        try {
+            return Result.ok(commentService.listComment(request));
+        } catch (Exception e) {
+            log.error("CommentController.listComment.error:", e);
+            return Result.fail(ApiEnum.ERROR.getCode());
+        }
     }
 }
