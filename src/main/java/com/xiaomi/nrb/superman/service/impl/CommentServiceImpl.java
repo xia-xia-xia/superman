@@ -3,19 +3,16 @@ package com.xiaomi.nrb.superman.service.impl;
 import com.xiaomi.nrb.superman.common.PageInfo;
 import com.xiaomi.nrb.superman.dao.CommentMapper;
 import com.xiaomi.nrb.superman.dao.PlanMapper;
-import com.xiaomi.nrb.superman.dao.UserMapper;
 import com.xiaomi.nrb.superman.dao.quary.ListCommentQuaryParam;
-import com.xiaomi.nrb.superman.dao.quary.ListPlanQuaryParam;
 import com.xiaomi.nrb.superman.domain.Comment;
+import com.xiaomi.nrb.superman.domain.Plan;
 import com.xiaomi.nrb.superman.domain.User;
 import com.xiaomi.nrb.superman.request.ListCommentReq;
 import com.xiaomi.nrb.superman.response.CommentListInfo;
-import com.xiaomi.nrb.superman.response.PlanListInfo;
 import com.xiaomi.nrb.superman.service.CommentService;
 import com.xiaomi.nrb.superman.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -30,9 +27,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Resource
     private UserService userService;
-
-    @Resource
-    private UserMapper userMapper;
 
     @Resource
     private CommentMapper commentMapper;
@@ -54,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
         quaryParam.setPlanId(request.getPlanId());
         commentList = commentMapper.listBySelective(quaryParam);
         commentTotal = commentMapper.countBySelective(quaryParam);
-        
+
         List<CommentListInfo>  commentListInfos = new ArrayList<>();
         commentList.forEach(k -> {
             User user = userService.getUserByUserId(k.getUid());
@@ -63,6 +57,11 @@ public class CommentServiceImpl implements CommentService {
             commentListInfo.setAvartarUrl(user.getAvartarUrl());
             commentListInfo.setNickName(user.getNickName());
             commentListInfo.setCommentCtime(simpleDateFormat.format(k.getCommentCtime()));
+            Plan plan =planMapper.selectByPrimaryKey(request.getPlanId());
+            if (k.getToUid()==plan.getUserId()){
+                commentListInfo.setToUid(k.getToUid());
+                commentListInfo.setReplyId(k.getReplyId());
+            }
             commentListInfos.add(commentListInfo);
             });
         return PageInfo.<CommentListInfo>builder().list(commentListInfos).total(commentTotal).build();

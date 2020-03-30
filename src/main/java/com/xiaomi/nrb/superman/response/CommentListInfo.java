@@ -2,7 +2,6 @@ package com.xiaomi.nrb.superman.response;
 
 import lombok.Data;
 
-import java.util.Date;
 
 @Data
 public class CommentListInfo {
