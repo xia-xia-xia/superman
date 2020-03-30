@@ -12,6 +12,10 @@ public class ListCommentQuaryParam extends BaseQuaryParam {
      */
     private Long planId;
     /**
+     * 目标用户id
+     */
+    private Long toUid;
+    /**
      * 评论ids
      */
     private List<Long> commentIds;

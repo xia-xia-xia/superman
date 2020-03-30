@@ -120,11 +120,11 @@
             <if test="toUid != null">
                 and to_uid = #{toUid,jdbcType=BIGINT}
             </if>
-            <if test="uid != null">
-                and uid = #{uid,jdbcType=BIGINT}
+            <if test="planId != null">
+                and plan_id = #{planId,jdbcType=BIGINT}
             </if>
         </where>
-        order by ctime desc
+        order by comment_ctime desc
         <include refid="page_sql"/>
     </select>
     <select id="countBySelective" parameterType="com.xiaomi.nrb.superman.dao.quary.ListCommentQuaryParam" resultType="integer">
@@ -137,6 +137,9 @@
                 <foreach collection="commentIds" item="item" index="index" open="(" close=")" separator=",">
                     #{item,jdbcType=INTEGER}
                 </foreach>
+            </if>
+            <if test="toUid != null">
+                and to_uid = #{toUid,jdbcType=BIGINT}
             </if>
             <if test="planId != null">
                 and plan_id = #{planId,jdbcType=BIGINT}

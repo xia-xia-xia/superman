@@ -2,6 +2,8 @@ package com.xiaomi.nrb.superman.response;
 
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 public class CommentListInfo {
@@ -37,4 +39,12 @@ public class CommentListInfo {
      * 微信头像
      */
     private String avartarUrl;
+    /**
+     * 回复列表
+     */
+    private List<CommentListInfo> replyList;
+    /**
+     * 是否是作者
+     */
+    private boolean isAuthor;
 }
