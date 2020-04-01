@@ -11,6 +11,7 @@ import com.xiaomi.nrb.superman.request.AddCommentReq;
 import com.xiaomi.nrb.superman.request.ListCommentReq;
 import com.xiaomi.nrb.superman.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,20 +39,21 @@ public class CommentController {
             comment.setPlanId(request.getPlanId());
             comment.setUid(request.getUserId());
             comment.setCommentCtime(new Date());
-            Plan plan =planMapper.selectByPrimaryKey(request.getPlanId());
-            if (null == plan){
-                //错误提示
-                return Result.fail(ApiEnum.ERROR.getCode());
-            }
-            comment.setToUid(plan.getUserId());
             //如果是回复评论
             if(null!= request.getReplyId()){
                 Comment replyComment = commentMapper.selectByPrimaryKey(request.getReplyId());
                 if (replyComment==null){
                     return Result.fail(ApiEnum.ERROR.getCode());
                 }
-                comment.setReplyId(request.getReplyId());
+                comment.setReplyId(replyComment.getId());
+                comment.setPlanId(replyComment.getPlanId());
             }
+            Plan plan =planMapper.selectByPrimaryKey(comment.getPlanId());
+            if (null == plan|| StringUtils.isBlank(comment.getComment())){
+                //错误提示
+                return Result.fail(ApiEnum.ERROR.getCode());
+            }
+            comment.setToUid(plan.getUserId());
             return Result.ok(commentService.addComment(comment));
         } catch (Exception e) {
             log.error("CommentController.addComment.error:", e);
