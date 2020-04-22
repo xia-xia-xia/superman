@@ -51,6 +51,7 @@ public class CommentServiceImpl implements CommentService {
         quaryParam.setPageNo((request.getPageNo() - 1) * request.getPageSize());
         quaryParam.setPageSize(request.getPageSize());
         quaryParam.setPlanId(request.getPlanId());
+        quaryParam.setToUid(request.getToUid());
         commentList = commentMapper.listBySelective(quaryParam);
         commentTotal = commentMapper.countBySelective(quaryParam);
 

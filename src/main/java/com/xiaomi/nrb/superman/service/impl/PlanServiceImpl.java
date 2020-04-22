@@ -92,10 +92,9 @@ public class PlanServiceImpl implements PlanService {
             quaryParam.setPageSize(request.getPageSize());
             quaryParam.setSearchKey(request.getSearchKey());
             quaryParam.setBookType(request.getBookType());
-            /*if ("personal".equals(request.getSource())) {
-                parseUserPlanStatus(request.getUserId());
+            if ("personal".equals(request.getSource())) {
                 quaryParam.setUserId(request.getUserId());
-            }*/
+            }
 
             list = planMapper.listBySelective(quaryParam);
             total = planMapper.countBySelective(quaryParam);

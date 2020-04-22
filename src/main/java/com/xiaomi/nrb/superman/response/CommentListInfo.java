@@ -8,6 +8,10 @@ import java.util.List;
 @Data
 public class CommentListInfo {
     /**
+     * 评论的感悟id
+     */
+    private Long planId;
+    /**
      * 评论id
      */
     private Long id;
