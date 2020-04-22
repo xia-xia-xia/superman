@@ -66,6 +66,7 @@ public class CommentServiceImpl implements CommentService {
         commentList.forEach(k -> {
             User user = userService.getUserByUserId(k.getUid());
             CommentListInfo commentListInfo = new CommentListInfo();
+            commentListInfo.setPlanId(k.getPlanId());
             commentListInfo.setId(k.getId());
             commentListInfo.setUid(k.getUid());
             commentListInfo.setToUid(k.getToUid());
