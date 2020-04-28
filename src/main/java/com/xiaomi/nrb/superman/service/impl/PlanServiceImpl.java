@@ -68,7 +68,24 @@ public class PlanServiceImpl implements PlanService {
 
         List<Plan> list = null;
         int total = 0;
-        if ("1".equals(request.getUpvote())) {
+        if ("1".equals(request.getCollect())) {
+            Relation relation = new Relation();
+            relation.setUserId(request.getUserId());
+            relation.setType(RelationTypeEnum.RELATION_COLLECT.getCode());
+            List<Relation> relations = relationMapper.listBySelective(relation);
+            if (CollectionUtils.isEmpty(relations)) {
+                return PageInfo.<PlanListInfo>builder().list(new ArrayList<>()).total(0).build();
+            }
+
+            List<Long> planIds = new ArrayList<>();
+            relations.forEach(k -> {
+                planIds.add(k.getPlanId());
+            });
+            ListPlanQuaryParam quaryParam = new ListPlanQuaryParam();
+            quaryParam.setPlanIds(planIds);
+            list = planMapper.listBySelective(quaryParam);
+            total = planIds.size();
+        }else if ("1".equals(request.getUpvote())) {
             Relation relation = new Relation();
             relation.setUserId(request.getUserId());
             relation.setType(RelationTypeEnum.RELATION_UPVOTE.getCode());
@@ -229,9 +246,9 @@ public class PlanServiceImpl implements PlanService {
         //}
         //2、计划进行中、围观数量满足
         //if (plan.getStatus() == PlanStatusEnum.ONGOING.getCode()) {
-            relation.setType(RelationTypeEnum.RELATION_SEE.getCode());
-            int seeNum = relationMapper.countBySelective(relation);
-            if (seeNum >= YOU_PLAN_COLLECT_NUM) {
+            relation.setType(RelationTypeEnum.RELATION_COLLECT.getCode());
+            int collectNum = relationMapper.countBySelective(relation);
+            if (collectNum >= YOU_PLAN_COLLECT_NUM) {
                 return true;
             }
         //}
