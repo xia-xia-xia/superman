@@ -36,4 +36,14 @@ public class RelationController {
             return Result.fail(ApiEnum.ERROR.getCode());
         }
     }
+    @RequestMapping("/relationList")
+    @CheckLogin
+    public Result listRelation(@RequestBody BaseRequest request) {
+        try {
+            return Result.ok(relationService.listRelation(request));
+        } catch (Exception e) {
+            log.error("RelationController.listRelation.error:", e);
+            return Result.fail(ApiEnum.ERROR.getCode());
+        }
+    }
 }

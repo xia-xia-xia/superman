@@ -1,7 +1,10 @@
 package com.xiaomi.nrb.superman.service;
 
+import com.xiaomi.nrb.superman.common.PageInfo;
 import com.xiaomi.nrb.superman.request.AddRelationReq;
+import com.xiaomi.nrb.superman.request.BaseRequest;
 import com.xiaomi.nrb.superman.response.PlanInfo;
+import com.xiaomi.nrb.superman.response.RelationListInfo;
 
 /**
  * @author niuruobing@xiaomi.com
@@ -16,4 +19,8 @@ public interface RelationService {
      * @since 2019-08-08 08:07
      */
     PlanInfo addRelation(AddRelationReq addRelationReq);
+    /**
+     * 关注用户列表
+     */
+    PageInfo<RelationListInfo> listRelation(BaseRequest request);
 }

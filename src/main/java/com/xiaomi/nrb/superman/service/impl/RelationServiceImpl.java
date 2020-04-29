@@ -1,19 +1,27 @@
 package com.xiaomi.nrb.superman.service.impl;
 
+import com.xiaomi.nrb.superman.common.PageInfo;
 import com.xiaomi.nrb.superman.dao.PlanMapper;
 import com.xiaomi.nrb.superman.dao.RelationMapper;
+import com.xiaomi.nrb.superman.dao.quary.ListRelationQuaryParam;
 import com.xiaomi.nrb.superman.domain.Plan;
 import com.xiaomi.nrb.superman.domain.Relation;
+import com.xiaomi.nrb.superman.domain.User;
 import com.xiaomi.nrb.superman.enums.PlanTypeEnum;
 import com.xiaomi.nrb.superman.enums.RelationTypeEnum;
 import com.xiaomi.nrb.superman.request.AddRelationReq;
+import com.xiaomi.nrb.superman.request.BaseRequest;
+import com.xiaomi.nrb.superman.response.CommentListInfo;
 import com.xiaomi.nrb.superman.response.PlanInfo;
+import com.xiaomi.nrb.superman.response.RelationListInfo;
 import com.xiaomi.nrb.superman.service.PlanService;
 import com.xiaomi.nrb.superman.service.RelationService;
+import com.xiaomi.nrb.superman.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author niuruobing@xiaomi.com
@@ -24,6 +32,9 @@ public class RelationServiceImpl implements RelationService {
 
     @Resource
     private PlanService planService;
+
+    @Resource
+    private UserService userService;
 
     @Resource
     private RelationMapper relationMapper;
@@ -68,8 +79,27 @@ public class RelationServiceImpl implements RelationService {
             planMapper.updateByPrimaryKeySelective(plan);
 
         }
-
-
         return  planService.detailPlan(request);
+    }
+
+    @Override
+    public PageInfo<RelationListInfo> listRelation(BaseRequest request) {
+        List<Relation> relationList=null;
+        int relationTotal=0;
+        ListRelationQuaryParam listRelationQuaryParam=new ListRelationQuaryParam();
+        listRelationQuaryParam.setUserId(request.getUserId());
+        listRelationQuaryParam.setPageNo((request.getPageNo() - 1) * request.getPageSize());
+        listRelationQuaryParam.setPageSize(request.getPageSize());
+        //relationList=relationMapper.listBySelective(listRelationQuaryParam);
+        //relationTotal=relationMapper.countBySelective(listRelationQuaryParam);
+        relationList.forEach(k->{
+                    User user=userService.getUserByUserId(k.getPlanUserId());
+                    RelationListInfo relationListInfo=new RelationListInfo();
+                    relationListInfo.setAvartarUrl(user.getAvartarUrl());
+                    relationListInfo.setAvartarUrl(user.getNickName());
+                }
+                );
+        return null;
+        //return PageInfo.<RelationListInfo>builder().list(relationList).total(relationTotal).build();
     }
 }
