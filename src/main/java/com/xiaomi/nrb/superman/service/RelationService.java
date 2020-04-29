@@ -6,6 +6,8 @@ import com.xiaomi.nrb.superman.request.BaseRequest;
 import com.xiaomi.nrb.superman.response.PlanInfo;
 import com.xiaomi.nrb.superman.response.RelationListInfo;
 
+import java.util.List;
+
 /**
  * @author niuruobing@xiaomi.com
  * @since 2019-08-08 08:05
@@ -22,5 +24,5 @@ public interface RelationService {
     /**
      * 关注用户列表
      */
-    PageInfo<RelationListInfo> listRelation(BaseRequest request);
+    List<RelationListInfo> listRelation(BaseRequest request);
 }

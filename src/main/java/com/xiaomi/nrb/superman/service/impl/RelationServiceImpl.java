@@ -20,6 +20,7 @@ import com.xiaomi.nrb.superman.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,23 +84,21 @@ public class RelationServiceImpl implements RelationService {
     }
 
     @Override
-    public PageInfo<RelationListInfo> listRelation(BaseRequest request) {
-        List<Relation> relationList=null;
-        int relationTotal=0;
-        ListRelationQuaryParam listRelationQuaryParam=new ListRelationQuaryParam();
-        listRelationQuaryParam.setUserId(request.getUserId());
-        listRelationQuaryParam.setPageNo((request.getPageNo() - 1) * request.getPageSize());
-        listRelationQuaryParam.setPageSize(request.getPageSize());
-        //relationList=relationMapper.listBySelective(listRelationQuaryParam);
-        //relationTotal=relationMapper.countBySelective(listRelationQuaryParam);
+    public List<RelationListInfo> listRelation(BaseRequest request) {
+        List<RelationListInfo> relationListInfoList=new ArrayList<>();
+        Relation relation=new Relation();
+        relation.setUserId(request.getUserId());
+        relation.setType(RelationTypeEnum.RELATION_SEE.getCode());
+        List<Relation> relationList=relationMapper.listBySelective(relation);
         relationList.forEach(k->{
                     User user=userService.getUserByUserId(k.getPlanUserId());
                     RelationListInfo relationListInfo=new RelationListInfo();
                     relationListInfo.setAvartarUrl(user.getAvartarUrl());
-                    relationListInfo.setAvartarUrl(user.getNickName());
+                    relationListInfo.setPlanUserId(user.getId());
+                    relationListInfo.setNickName(user.getNickName());
+                    relationListInfoList.add(relationListInfo);
                 }
                 );
-        return null;
-        //return PageInfo.<RelationListInfo>builder().list(relationList).total(relationTotal).build();
+        return relationListInfoList;
     }
 }
