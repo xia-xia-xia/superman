@@ -34,4 +34,8 @@ public class ListPlanReq extends BaseRequest {
      * 书籍类型
      */
     private String bookType;
+    /**
+     * 所关注用户id
+     */
+    private Long seeUserId;
 }
