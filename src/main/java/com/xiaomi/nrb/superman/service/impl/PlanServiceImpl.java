@@ -137,19 +137,23 @@ public class PlanServiceImpl implements PlanService {
             planListInfo.setNickName(user.getNickName());
             planListInfo.setAvartarUrl(user.getAvartarUrl());
             planListInfo.setGender(user.getGender());
+            //关注数量
+            Integer seeNum =0;
+            Relation relation00=new Relation();
+            relation00.setType(RelationTypeEnum.RELATION_SEE.getCode());
+            relation00.setPlanUserId(k.getUserId());
+            seeNum=relationMapper.countBySelective(relation00);
+
             Relation relation = new Relation();
             relation.setPlanId(k.getId());
             List<Relation> relations = relationMapper.listBySelective(relation);
             if (relations == null) {
                 relations = new ArrayList<>();
             }
-            Integer seeNum = 0;
             Integer zanNum = 0;
             Integer collectNum=0;
             for (Relation relation1 : relations) {
-                if (RelationTypeEnum.RELATION_SEE.getCode() == relation1.getType()) {
-                    seeNum++;
-                } else if (RelationTypeEnum.RELATION_UPVOTE.getCode() == relation1.getType()) {
+                if (RelationTypeEnum.RELATION_UPVOTE.getCode() == relation1.getType()) {
                     zanNum++;
                 } else if (RelationTypeEnum.RELATION_COLLECT.getCode() == relation1.getType()) {
                     collectNum++;
@@ -175,6 +179,20 @@ public class PlanServiceImpl implements PlanService {
         planInfo.setNickName(user.getNickName());
         planInfo.setAvartarUrl(user.getAvartarUrl());
         planInfo.setGender(user.getGender());
+
+        //每个作者只能关注一次
+        Relation relation0=new Relation();
+        relation0.setType(RelationTypeEnum.RELATION_SEE.getCode());
+        relation0.setUserId(request.getUserId());
+        List<Relation> relationSee=relationMapper.listBySelective(relation0);
+        relationSee.forEach(k->{
+            if(k.getPlanUserId()==plan.getUserId()){
+                planInfo.setSeePeopleTag(true);
+            }else{
+                planInfo.setSeePeopleTag(false);
+            }
+        });
+
         if (request.getUserId() == plan.getUserId()) {
             planInfo.setTag(true);
         } else {
@@ -183,11 +201,30 @@ public class PlanServiceImpl implements PlanService {
         planInfo.setCollectTag(false);
         planInfo.setZanTag(false);
         planInfo.setSeeTag(false);
-        //关注、点赞、收藏
-        Integer seeNum = 0;
+
+        //关注数量
+        Integer seeNum =0;
+        Relation relation00=new Relation();
+        relation00.setType(RelationTypeEnum.RELATION_SEE.getCode());
+        relation00.setPlanUserId(plan.getUserId());
+        seeNum=relationMapper.countBySelective(relation00);
+        //关注用户头像展示
+        List<Long> seeUserIds = new ArrayList<>();
+        List<Relation> avartarList=relationMapper.listBySelective(relation00);
+        if (avartarList == null) {
+            avartarList = new ArrayList<>();
+        }
+        for (Relation k : avartarList){
+            seeUserIds.add(k.getUserId());
+        }
+        if (!CollectionUtils.isEmpty(seeUserIds)) {
+            List<String> strings = userMapper.selectAvartarUrls(seeUserIds);
+            planInfo.setSeeAvartarUrls(strings);
+        }
+
+        //点赞、收藏
         Integer zanNum = 0;
         Integer collectNum = 0;
-        List<Long> seeUserIds = new ArrayList<>();
         List<Long> collectUserIds = new ArrayList<>();
         Relation relation = new Relation();
         relation.setPlanId(request.getPlanId());
@@ -196,11 +233,7 @@ public class PlanServiceImpl implements PlanService {
             relations = new ArrayList<>();
         }
         for (Relation k : relations) {
-            if (RelationTypeEnum.RELATION_SEE.getCode() == k.getType()) {
-                planInfo.setSeeTag(true);
-                seeNum++;
-                seeUserIds.add(k.getUserId());
-            } else if (RelationTypeEnum.RELATION_UPVOTE.getCode() == k.getType()) {
+            if (RelationTypeEnum.RELATION_UPVOTE.getCode() == k.getType()) {
                 planInfo.setZanTag(true);
                 zanNum++;
             } else if (RelationTypeEnum.RELATION_COLLECT.getCode() == k.getType()) {
@@ -236,23 +269,17 @@ public class PlanServiceImpl implements PlanService {
         }
         Relation relation = new Relation();
         relation.setPlanId(plan.getId());
-        //1、计划已完成、点赞数量满足
-        //if (plan.getStatus() == PlanStatusEnum.COMPLETE.getCode()) {
-            relation.setType(RelationTypeEnum.RELATION_UPVOTE.getCode());
-            int zanNum = relationMapper.countBySelective(relation);
-            if (zanNum >= YOU_PLAN_ZAN_NUM) {
-                return true;
-            }
-        //}
-        //2、计划进行中、围观数量满足
-        //if (plan.getStatus() == PlanStatusEnum.ONGOING.getCode()) {
+        relation.setType(RelationTypeEnum.RELATION_UPVOTE.getCode());
+        int zanNum = relationMapper.countBySelective(relation);
+        if (zanNum >= YOU_PLAN_ZAN_NUM) {
+            return true;
+        }else {
             relation.setType(RelationTypeEnum.RELATION_COLLECT.getCode());
             int collectNum = relationMapper.countBySelective(relation);
             if (collectNum >= YOU_PLAN_COLLECT_NUM) {
                 return true;
             }
-        //}
-
+        }
         return false;
     }
 

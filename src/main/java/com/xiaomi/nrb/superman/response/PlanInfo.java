@@ -16,6 +16,10 @@ public class PlanInfo extends Plan {
      */
     private boolean tag;
     /**
+     * 是否已经关注过
+     */
+    private boolean seePeopleTag;
+    /**
      * 是否关注
      */
     private boolean seeTag;
