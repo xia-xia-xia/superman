@@ -1,9 +1,7 @@
 package com.xiaomi.nrb.superman.service.impl;
 
-import com.xiaomi.nrb.superman.common.PageInfo;
 import com.xiaomi.nrb.superman.dao.PlanMapper;
 import com.xiaomi.nrb.superman.dao.RelationMapper;
-import com.xiaomi.nrb.superman.dao.quary.ListRelationQuaryParam;
 import com.xiaomi.nrb.superman.domain.Plan;
 import com.xiaomi.nrb.superman.domain.Relation;
 import com.xiaomi.nrb.superman.domain.User;
@@ -11,7 +9,6 @@ import com.xiaomi.nrb.superman.enums.PlanTypeEnum;
 import com.xiaomi.nrb.superman.enums.RelationTypeEnum;
 import com.xiaomi.nrb.superman.request.AddRelationReq;
 import com.xiaomi.nrb.superman.request.BaseRequest;
-import com.xiaomi.nrb.superman.response.CommentListInfo;
 import com.xiaomi.nrb.superman.response.PlanInfo;
 import com.xiaomi.nrb.superman.response.RelationListInfo;
 import com.xiaomi.nrb.superman.service.PlanService;
