@@ -109,6 +109,7 @@ public class PlanServiceImpl implements PlanService {
             quaryParam.setPageSize(request.getPageSize());
             quaryParam.setSearchKey(request.getSearchKey());
             quaryParam.setBookType(request.getBookType());
+            quaryParam.setUserId(request.getUserId());
             if ("personal".equals(request.getSource())) {
                 quaryParam.setUserId(request.getUserId());
             }
@@ -184,14 +185,13 @@ public class PlanServiceImpl implements PlanService {
         Relation relation0=new Relation();
         relation0.setType(RelationTypeEnum.RELATION_SEE.getCode());
         relation0.setUserId(request.getUserId());
+        relation0.setPlanUserId(plan.getUserId());
         List<Relation> relationSee=relationMapper.listBySelective(relation0);
-        relationSee.forEach(k->{
-            if(k.getPlanUserId()==plan.getUserId()){
-                planInfo.setSeePeopleTag(true);
-            }else{
-                planInfo.setSeePeopleTag(false);
-            }
-        });
+        if(!CollectionUtils.isEmpty(relationSee)){
+            planInfo.setSeePeopleTag(true);
+        }else{
+            planInfo.setSeePeopleTag(false);
+        }
 
         if (request.getUserId() == plan.getUserId()) {
             planInfo.setTag(true);

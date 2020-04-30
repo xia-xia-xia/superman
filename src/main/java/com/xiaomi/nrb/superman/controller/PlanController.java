@@ -60,6 +60,9 @@ public class PlanController {
             if(StringUtils.isBlank(request.getBookType())){
                 request.setBookType(null);
             }
+            if(null==request.getUserId()){
+                request.setUserId(null);
+            }
             return Result.ok(planService.listPlan(request));
         } catch (Exception e) {
             log.error("PlanController.listPlan.error:", e);
